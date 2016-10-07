@@ -167,6 +167,20 @@ describe('yargs-parser', function () {
     parse.should.have.property('_').and.deep.equal(['moo'])
   })
 
+  it('should expose camelCased boolean property for dash-separated-option', function () {
+    var parse = parser(['--foo-bar'], {
+      boolean: ['foo-bar']
+    })
+    parse.should.have.property('foo-bar', true).and.be.a('boolean')
+    parse.should.have.property('fooBar', true).and.be.a('boolean')
+  })
+
+  it('should expose camelCased boolean property for dash-separated-option marked as a boolean', function () {
+    var parse = parser(['--foo-bar'])
+    parse.should.have.property('foo-bar', true).and.be.a('boolean')
+    parse.should.have.property('fooBar', true).and.be.a('boolean')
+  })
+
   it('should set boolean options values if the next value is "true" or "false"', function () {
     var parse = parser(['--verbose', 'false', 'moo', '-t', 'true'], {
       boolean: ['t', 'verbose'],
